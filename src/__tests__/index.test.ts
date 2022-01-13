@@ -4,7 +4,9 @@ test('Dummy Test', async () => {
     // var redis = require("ioredis");
 
     // // var b = await TrottlerD(new redis())
-    // var b = await TrottlerD(false, {})
+    // var b = await TrottlerD(false, {
+        
+    // })
 
     // setInterval(() => {
     //     console.log("asdf")

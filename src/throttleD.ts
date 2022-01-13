@@ -33,20 +33,27 @@ export default async function (redis: Redis.Redis | false, redisOptions?: Redis.
     ioredis: redis
   }, script);
   async function throttle(key: string, throttleFn: CallableFunction, ttl: number, noRetry?: boolean | undefined /* Private */) {
+    if (ttl === 0) {
+      return throttleFn();
+    }
+
     try {
       const expiresIn = await loadedScript(1, makeRedisKey(key), ttl)
 
       // If being throttled, wait for its expiration and try to run once more.
       if (expiresIn >= 0) {
         if (!noRetry) {
-          setTimeout(() => throttle(key, throttleFn, ttl, true /* No retry */), expiresIn);
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(throttle(key, throttleFn, ttl, true /* No retry */))
+            }, expiresIn);
+          });
         }
       } else {
-        throttleFn();
+        return throttleFn();
       }
     } catch (err) {
-      throttleFn(err);
-
+      return throttleFn(err);
     }
   }
 
