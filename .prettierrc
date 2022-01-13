@@ -1,1 +1,5 @@
-"@mixmaxhq/prettier-config"
+{
+    "printWidth": 120,
+    "trailingComma": "all",
+    "singleQuote": true
+  }

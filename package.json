@@ -1,35 +1,50 @@
 {
-  "name": "node-distributed-throttle-function",
-  "version": "0.0.3",
-  "description": "Distributed throttle() function (like Underscore) built in Redis",
-  "main": "index.js",
+  "name": "throttle-d",
+  "version": "1.0.0",
+  "description": "Distributed throttle() function (like Underscore) built on Redis",
+  "main": "lib/index.js",
   "scripts": {
-    "ci": "npm run lint",
-    "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mixmaxhq/node-distributed-throttle-function"
+    "url": "https://github.com/shahzaib-sheikh/node-throttle-d"
   },
   "bugs": {
-    "url": "https://github.com/mixmaxhq/node-distributed-throttle-function/issues"
+    "url": "https://github.com/shahzaib-sheikh/node-throttle-d/issues"
   },
-  "homepage": "https://github.com/mixmaxhq/node-distributed-throttle-function",
+  "homepage": "https://github.com/shahzaib-sheikh/node-throttle-d",
   "keywords": [
     "redis",
     "throttle",
     "lock"
   ],
-  "author": "Mixmax <admin@mixmax.com> (https://mixmax.com/)",
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "Shahzaib Sheikh <shahzaib4213@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "node-redis-scripty": "0.0.5"
+    "ioredis": "^4.28.3",
+    "node-redis-script": "^2.0.1"
   },
   "devDependencies": {
-    "@mixmaxhq/prettier-config": "^1.0.0",
-    "eslint": "^6.8.0",
-    "eslint-config-mixmax": "^4.8.0",
-    "prettier": "^1.19.1"
+    "@types/ioredis": "^4.28.7",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "jest": "^27.4.7",
+    "prettier": "^1.19.1",
+    "ts-jest": "^27.1.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.9.9"
   }
 }
