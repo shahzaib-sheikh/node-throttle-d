@@ -1,6 +1,6 @@
 {
   "name": "throttler-d",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Distributed throttle() function (like Underscore) built on Redis",
   "main": "lib/index.js",
   "scripts": {
@@ -28,7 +28,8 @@
     "lock"
   ],
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "lua/**/*"
   ],
   "author": "Shahzaib Sheikh <shahzaib4213@gmail.com>",
   "license": "MIT",
