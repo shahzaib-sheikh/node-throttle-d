@@ -5,13 +5,13 @@ This module allows you to throttle the invocation of a function (just like [Unde
 ## Installing
 
 ```bash
-npm install throttle-d
+npm install throttler-d
 ```
 
 ## Using
 
 ```js
-var ThrottleD = require('throttle-d');
+var ThrottleD = require('throttler-d');
 var redis = require('ioredis');
 
 var redisConnection = new redis();

@@ -1,5 +1,5 @@
 {
-  "name": "throttle-d",
+  "name": "throttler-d",
   "version": "1.0.0",
   "description": "Distributed throttle() function (like Underscore) built on Redis",
   "main": "lib/index.js",
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shahzaib-sheikh/node-throttle-d"
+    "url": "https://github.com/shahzaib-sheikh/node-throttler-d"
   },
   "bugs": {
-    "url": "https://github.com/shahzaib-sheikh/node-throttle-d/issues"
+    "url": "https://github.com/shahzaib-sheikh/node-throttler-d/issues"
   },
-  "homepage": "https://github.com/shahzaib-sheikh/node-throttle-d",
+  "homepage": "https://github.com/shahzaib-sheikh/node-throttler-d",
   "keywords": [
     "redis",
     "throttle",

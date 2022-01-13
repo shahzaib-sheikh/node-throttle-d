@@ -1,9 +1,9 @@
-import RedisScript from 'node-redis-script';
-import { Redis } from 'ioredis';
 import { readFile } from 'fs';
+import { Redis } from 'ioredis';
+import RedisScript from 'node-redis-script';
 
 function makeRedisKey(key: string) {
-  return 'throttle-d:' + key;
+  return 'throttler-d:' + key;
 }
 
 export default async function (redis: Redis) {
