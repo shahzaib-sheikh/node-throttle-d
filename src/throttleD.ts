@@ -29,7 +29,7 @@ export class ThrottledException extends Error {
 
 }
 
-export default async function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD> {
+export async function createThrottlerD(redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD> {
 
   if (!redis) {
     if (!redisOptions) {

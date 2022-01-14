@@ -8,4 +8,4 @@ export declare class ThrottledException extends Error {
     private ttl;
     constructor(key: string, ttl: number);
 }
-export default function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD>;
+export declare function createThrottlerD(redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD>;

@@ -1,11 +1,11 @@
-import { default as TrottlerD } from "../index";
+import { IThrottlerD, ThrottledException, createThrottlerD } from "../index";
 
 test('Dummy Test', async () => {
     // var redis = require("ioredis");
 
     // // var b = await TrottlerD(new redis())
     // var b = await TrottlerD(false, {
-        
+
     // })
 
     // setInterval(() => {

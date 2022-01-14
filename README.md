@@ -10,35 +10,36 @@ npm install throttler-d
 
 ## Using
 
-```js
-var ThrottleD = require('throttler-d');
-var redis = require('ioredis');
+```ts
+// with `ioredis` object
 
-var redisConnection = new redis();
+import { IThrottlerD, ThrottledException, createThrottlerD } from 'throttler-d';
+import * as redis from 'ioredis';
 
-var throttle = ThrottleD(redisConnection);
+const redisConnection = new redis();
 
-// This function will be called immediately unless it has been called less than 10 seconds ago.
-// In that case, it will be called in 10 seconds—unless some _other_ call has happened in that interval.
-throttle.call(
-  'my10secThrottledFunction',
-  function(err) {
-    if (err) {
-      console.log('error!', err);
-      return;
-    }
+const throttler: IThrottlerD = createThrottlerD(redisConnection);
 
-    console.log('This function will be called at most once (possibly zero times) within the next 10 seconds.');
-  },
-  10 * 1000 /* 10 sec */,
-);
+throttler
+  .call(
+    'groupKey',
+    function(err) {
+      if (err) {
+        console.log('error!', err);
+        return;
+      }
+      console.log('do something');
+    },
+    10000, // 10 seconds
+  )
+  .then(console.log)
+  .catch(console.error);
 
 // If you want to cancel any pending call such that the next invocation will fire immediately.
-throttle.cancel('my10secThrottledFunction', function(err) {
-  if (err) {
-    console.log('error!', err);
-  }
-});
+throttler
+  .cancel('groupKey')
+  .then(console.log)
+  .catch(console.error);
 ```
 
 This repo is forked from [mixmaxhq/node-distributed-throttle-function](https://github.com/mixmaxhq/node-distributed-throttle-function)
