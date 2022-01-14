@@ -17,7 +17,19 @@ async function readFile(path: string) {
   })
 }
 
-export default async function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions) {
+export interface IThrottlerD {
+  call: (key: string, throttleFn: CallableFunction, ttl: number, noRetry?: boolean | undefined) => Promise<any>;
+  cancel: (key: string) => Promise<number | false>;
+}
+
+export class ThrottledException extends Error {
+  constructor(private key: string, private ttl: number) {
+    super(`Function call throttled with key {${key}} ttl {${ttl}}`);
+  }
+
+}
+
+export default async function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD> {
 
   if (!redis) {
     if (!redisOptions) {
@@ -39,7 +51,6 @@ export default async function (redis: Redis.Redis | false, redisOptions?: Redis.
 
     try {
       const expiresIn = await loadedScript(1, makeRedisKey(key), ttl)
-
       // If being throttled, wait for its expiration and try to run once more.
       if (expiresIn >= 0) {
         if (!noRetry) {
@@ -48,6 +59,8 @@ export default async function (redis: Redis.Redis | false, redisOptions?: Redis.
               resolve(throttle(key, throttleFn, ttl, true /* No retry */))
             }, expiresIn);
           });
+        } else {
+          return Promise.reject(new ThrottledException(key, ttl))
         }
       } else {
         return throttleFn();
@@ -56,11 +69,10 @@ export default async function (redis: Redis.Redis | false, redisOptions?: Redis.
       return throttleFn(err);
     }
   }
-
   return {
     call: throttle,
-    cancel: (key: string) => {
-      return redis && redis.del(makeRedisKey(key));
+    cancel: async (key: string) => {
+      return redis && (await redis.del(makeRedisKey(key)));
     }
   }
 };

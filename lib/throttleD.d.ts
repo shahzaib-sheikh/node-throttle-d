@@ -1,5 +1,11 @@
 import * as Redis from 'ioredis';
-export default function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<{
+export interface IThrottlerD {
     call: (key: string, throttleFn: CallableFunction, ttl: number, noRetry?: boolean | undefined) => Promise<any>;
-    cancel: (key: string) => false | Promise<number>;
-}>;
+    cancel: (key: string) => Promise<number | false>;
+}
+export declare class ThrottledException extends Error {
+    private key;
+    private ttl;
+    constructor(key: string, ttl: number);
+}
+export default function (redis: Redis.Redis | false, redisOptions?: Redis.RedisOptions): Promise<IThrottlerD>;
